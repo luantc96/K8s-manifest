@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: deployment-web-app
+specs:
+  template:
+    metadata:
+      app: pod-nginxdemos-hello
+    specs:
+      containers:
+      - name: container-nginxdemos-hello
+        image: nginxdemos/hello
+        port:
+        - containerPort: 80
+  replicas: 2
+  selector:
+    app: pod-nginxdemos-hello
+  
