@@ -31,3 +31,23 @@ spec:
   selector:
     matchLabels:
     app: pod-nginxdemos-hello
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: K8s-ingress
+annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: demo.luan.k8s
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+      backend:
+        service:
+          name: Svc-ClusterIP
+          port:
+            number: 80
