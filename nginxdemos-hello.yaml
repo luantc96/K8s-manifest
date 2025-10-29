@@ -38,10 +38,16 @@ metadata:
   name: k8s-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+      - demo-luan.tpcloud.vn
+    secretName: website-tls-secret
   rules:
-  - host: demo.luan.k8s
+  - host: demo-luan.tpcloud.vn
     http:
       paths:
       - path: /
@@ -51,3 +57,12 @@ spec:
             name: svc-clusterip
             port:
               number: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: website-tls-secret
+type: kubernetes.io/tls
+data:
+  tls.crt: <base64-crt>
+  tls.key: <base64-key>
