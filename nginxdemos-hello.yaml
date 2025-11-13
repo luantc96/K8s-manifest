@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: deployment-web-app
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: pod-nginxdemos-hello
@@ -12,11 +12,18 @@ spec:
       labels:
         app: pod-nginxdemos-hello
     spec:
+      volumes:
+      - name: volume-ngindemos-hello
+        persistentVolumeClaim:
+          claimName: pvc-nginxdemos-hello
       containers:
       - name: container-nginxdemos-hello
         image: nginxdemos/hello
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: volume-ngindemos-hello
+          mountPath: /mnt
 ---
 apiVersion: v1
 kind: Service
@@ -64,5 +71,5 @@ metadata:
   name: website-tls-secret
 type: kubernetes.io/tls
 data:
-  tls.crt: <base64-crt>
-  tls.key: <base64-key>
+  tls.crt: <tls-cert-base64>
+  tls.key: <tls-key-base64>
