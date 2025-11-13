@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: k8s-storage-class
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.10.10.25  # nfs server's IP address
+  share: /nfs          # nfs server's share directory
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
